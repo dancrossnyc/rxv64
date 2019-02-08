@@ -1,0 +1,12 @@
+[package]
+name = "ulib"
+version = "0.1.0"
+authors = ["Dan Cross <cross@gajendra.net>"]
+edition = "2018"
+
+[lib]
+name = "ulib"
+crate-type = ["staticlib"]
+
+[dependencies]
+syslib = { path = "../syslib" }
