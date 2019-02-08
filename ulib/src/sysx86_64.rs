@@ -11,27 +11,34 @@
 mod syscalls {
     macro_rules! sysasm {
         ($r:ident, $num:expr) => {
-            asm!("syscall" : "={rax}"($r)
-                : "{rax}"($num as usize)
-                : "rcx","r11" : "volatile");
+            asm!("syscall",
+                inlateout("rax") $num as usize => $r,
+                out("rcx") _, out("r11") _,
+                options(att_syntax));
         };
         ($r:ident, $num:expr, $a:ident) => {
-            asm!("syscall" : "={rax}"($r)
-                : "{rax}"($num as usize), "{rdi}"($a as u64)
-                : "rcx","r11" : "volatile");
+            asm!("syscall" ,
+                inlateout("rax") $num as usize => $r,
+                in("rdi") $a as u64,
+                out("rcx") _, out("r11") _,
+                options(att_syntax));
         };
         ($r:ident, $num:expr, $a:ident, $b:ident) => {
-            asm!("syscall" : "={rax}"($r)
-                : "{rax}"($num as usize), "{rdi}"($a as u64), "{rsi}"($b as u64)
-                : "rcx","r11" : "volatile");
+            asm!("syscall",
+                inlateout("rax") $num as usize => $r,
+                in("rdi") $a as u64,
+                in("rsi") $b as u64,
+                out("rcx") _, out("r11") _,
+                options(att_syntax));
         };
         ($r:ident, $num:expr, $a:ident, $b:ident, $c:ident) => {
-            asm!("syscall" : "={rax}"($r)
-                : "{rax}"($num as usize),
-                  "{rdi}"($a as u64),
-                  "{rsi}"($b as u64),
-                  "{rdx}"($c as u64)
-                : "rcx","r11" : "volatile");
+            asm!("syscall",
+                inlateout("rax") $num as usize => $r,
+                in("rdi") $a as u64,
+                in("rsi") $b as u64,
+                in("rdx") $c as u64,
+                out("rcx") _, out("r11") _,
+                options(att_syntax));
         };
     }
     macro_rules! syscall {
@@ -40,9 +47,9 @@ mod syscalls {
             #[no_mangle]
             #[naked]
             pub unsafe extern "C" fn $name($($a : $at,)*) -> $rety {
-                let r: $rety;
+                let r: usize;
                 sysasm!(r, $num $(,$a)*);
-                r
+                r as $rety
             }
         };
     }
@@ -193,7 +200,7 @@ slow_printf:
 	// Copy the address of the saved reg area into the va_list
 	pushq	%rsp
 	// Copy the address of the overflow area into the va_list
-	lea	10(%rbp), %rax
+	lea	16(%rbp), %rax
 	push	%rax
 
 	// Copy the GP and FP register offsets into the va_list.
