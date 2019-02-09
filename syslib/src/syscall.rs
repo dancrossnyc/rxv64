@@ -19,3 +19,12 @@ pub const UNLINK: usize = 18;
 pub const LINK: usize = 19;
 pub const MKDIR: usize = 20;
 pub const CLOSE: usize = 21;
+
+#[repr(u32)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum OpenFlags {
+    None = 0b0000,
+    Read = 0b0001,
+    Write = 0b0010,
+    ReadWrite = 0b0011,
+}

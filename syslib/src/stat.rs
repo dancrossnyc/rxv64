@@ -1,5 +1,5 @@
 #[repr(u32)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FileType {
     Unused = 0,
     Dir = 1,
