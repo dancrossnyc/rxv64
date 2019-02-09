@@ -1,8 +1,9 @@
 #!/bin/sh
 #exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,x2apic -smp 8 -m 8192 -curses -kernel root/rxv64.elf
 #exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic -smp 8 -m 8192 -curses -kernel root/rxv64.elf
-#exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic -smp 8 -m 8192 -curses -kernel root/rxv64.elf
 #exec qemu-system-x86_64 -cpu host,pdpe1gb,xsaveopt,fsgsbase,apic -accel hvf -smp 8 -m 2048 -nographic -kernel root/rxv64.elf
-exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic,msr -smp 8 -m 1152 -curses -kernel root/rxv64.elf
+#exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic,msr -smp 8 -m 1152 -curses -kernel root/rxv64.elf
+exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic,msr -smp 2 -m 129 -curses -kernel root/rxv64.elf
 #exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic,msr -smp 8 -m 8192 -kernel root/rxv64.elf
+#exec qemu-system-x86_64 -cpu host,pdpe1gb,xsaveopt,fsgsbase,apic,msr -accel kvm -smp 8 -m 8192 -curses -kernel root/rxv64.elf
 #exec qemu-system-x86_64 -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic -smp 8 -m 8192 -nographic -kernel root/rxv64.elf

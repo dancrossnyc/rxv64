@@ -8,9 +8,9 @@ pub enum FileType {
 }
 
 pub struct Stat {
-    typ: FileType,
-    dev: u32,
-    ino: u64,
-    nlink: u32,
-    size: u64,
+    pub typ: FileType,
+    pub dev: u32,
+    pub ino: u64,
+    pub nlink: u32,
+    pub size: u64,
 }
