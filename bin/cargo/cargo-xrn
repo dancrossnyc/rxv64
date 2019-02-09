@@ -1,0 +1,10 @@
+#!/bin/sh
+cargo xmk &&
+    exec qemu-system-x86_64 \
+        -cpu qemu64,pdpe1gb,xsaveopt,fsgsbase,apic,msr \
+        -machine q35 \
+        -smp 2 -m 129 \
+        -curses \
+        -kernel $RXV64/root/rxv64.elf \
+        -device ide-hd,drive=disk0 \
+        -drive id=disk0,file=/tmp/disk0.img,if=none,format=raw

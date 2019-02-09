@@ -1,0 +1,2 @@
+#!/bin/sh
+exec qemu-system-x86_64 -cpu host,pdpe1gb,xsaveopt,fsgsbase,apic,msr -accel kvm -smp 8 -m 8192 -curses "$@" -kernel root/rxv64.elf

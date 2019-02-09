@@ -1,0 +1,4 @@
+#!/bin/sh
+RUST_TARGET_PATH=`pwd`/lib
+export RUST_TARGET_PATH
+cd ulib && xargo clippy --target x86_64-unknown-none-elf

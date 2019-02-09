@@ -1,0 +1,10 @@
+#!/bin/sh
+RUST_TARGET_PATH=$RXV64/lib
+export RUST_TARGET_PATH
+if [ -x /opt/gnu/bin/x86_64-none-elf-objcopy ]; then
+	OBJCOPY=/opt/gnu/bin/x86_64-none-elf-objcopy
+else
+	OBJCOPY=/usr/local/bin/objcopy
+fi
+xargo build --release --target x86_64-unknown-none-elf &&
+$OBJCOPY -O elf32-i386 $RXV64/kernel/target/x86_64-unknown-none-elf/release/rxv64 $RXV64/root/rxv64.elf

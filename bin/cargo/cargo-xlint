@@ -1,0 +1,4 @@
+#!/bin/sh
+RUST_TARGET_PATH=$RXV64/lib
+export RUST_TARGET_PATH
+xargo clippy --target x86_64-unknown-none-elf
