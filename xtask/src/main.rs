@@ -163,6 +163,7 @@ fn kbuild(profile: Build) -> Result<()> {
     cmd.arg("--exclude").arg("xtask");
     cmd.arg("--exclude").arg("ulib");
     cmd.arg("-Z").arg("build-std=core");
+    cmd.arg("-Z").arg("json-target-spec");
     cmd.arg("--target").arg(format!("lib/{}.json", ktarget()));
     profile.add_build_arg(&mut cmd);
     let status = cmd.status()?;
@@ -180,6 +181,7 @@ fn ubuild(profile: Build) -> Result<()> {
     cmd.arg("--exclude").arg("xtask");
     cmd.arg("--exclude").arg("kernel");
     cmd.arg("-Z").arg("build-std=core");
+    cmd.arg("-Z").arg("json-target-spec");
     cmd.arg("--target").arg(format!("lib/{}.json", utarget()));
     profile.add_build_arg(&mut cmd);
     let status = cmd.status()?;
@@ -196,6 +198,7 @@ fn expand(profile: Build) -> Result<()> {
     cmd.current_dir(subdir);
     cmd.arg("rustc");
     cmd.arg("-Z").arg("build-std=core");
+    cmd.arg("-Z").arg("json-target-spec");
     cmd.arg("--target")
         .arg(format!("../lib/{}.json", ktarget()));
     cmd.arg("--").arg("--pretty=expanded");
@@ -216,6 +219,7 @@ fn kasm(profile: Build) -> Result<()> {
     cmd.arg("--exclude").arg("ulib");
     cmd.arg("--exclude").arg("syslib");
     cmd.arg("-Z").arg("build-std=core");
+    cmd.arg("-Z").arg("json-target-spec");
     cmd.arg("--target").arg(format!("lib/{}.json", utarget()));
     cmd.arg("--").arg("--emit").arg("asm");
     profile.add_build_arg(&mut cmd);

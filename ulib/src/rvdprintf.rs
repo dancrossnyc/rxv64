@@ -11,7 +11,7 @@ enum S {
     Verb,
 }
 
-pub fn rvdprintf(fd: i32, fmt: &[u8], mut ap: ffi::VaList) {
+pub fn rvdprintf(fd: i32, fmt: &[u8], mut ap: ffi::VaList<'_>) {
     let mut state = S::Normal;
     for c in fmt {
         state = match state {
@@ -36,22 +36,22 @@ enum Base {
     Hex = 16,
 }
 
-fn printv(fd: i32, c: u8, ap: &mut ffi::VaList) -> S {
+fn printv(fd: i32, c: u8, ap: &mut ffi::VaList<'_>) -> S {
     match c {
         b'%' => putc(fd, b'%'),
-        b'c' => putc(fd, unsafe { (ap.arg::<u32>() & 0xFF) as u8 }),
+        b'c' => putc(fd, unsafe { (ap.next_arg::<u32>() & 0xFF) as u8 }),
         b'd' => {
-            let d = unsafe { ap.arg::<i32>() };
+            let d = unsafe { ap.next_arg::<i32>() };
             if d < 0 {
                 printnegint(fd, i64::abs(i64::from(d)) as u64, Base::Decimal);
             } else {
                 printint(fd, d as u64, Base::Decimal);
             }
         }
-        b'o' => printint(fd, unsafe { ap.arg::<u64>() }, Base::Octal),
-        b'p' | b'x' => printint(fd, unsafe { ap.arg::<u64>() }, Base::Hex),
+        b'o' => printint(fd, unsafe { ap.next_arg::<u64>() }, Base::Octal),
+        b'p' | b'x' => printint(fd, unsafe { ap.next_arg::<u64>() }, Base::Hex),
         b's' => {
-            let s = unsafe { ap.arg::<*const u8>() };
+            let s = unsafe { ap.next_arg::<*const u8>() };
             let t = if s.is_null() {
                 b"(null)"
             } else {

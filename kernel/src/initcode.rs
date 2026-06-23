@@ -38,7 +38,8 @@ unsafe extern "C" {
 }
 
 pub fn start_init_slice() -> &'static [u8] {
-    let start = start_init as usize;
+    let start_ptr = start_init as *const ();
+    let start = start_ptr.addr();
     let len = unsafe { start_init_len };
     assert!(len < 200);
     unsafe { slice::from_raw_parts(start as *const u8, len) }

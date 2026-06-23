@@ -601,7 +601,8 @@ where
             // Arrange for the scheduler to return to `syscallret`
             // and allocate space for the kernel scheduler context.
             let sp = sp.sub(1);
-            volatile::write(sp.as_mut().unwrap(), syscall::syscallret as usize);
+            let syscallret = syscall::syscallret as *const ();
+            volatile::write(sp.as_mut().unwrap(), syscallret.addr());
             let sp = sp.sub(size_of::<arch::Context>() / size_of::<usize>());
             let ctx = (sp as *mut arch::Context).as_mut().unwrap();
             ctx.set_stack(sp.addr() as u64);

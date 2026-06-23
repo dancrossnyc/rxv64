@@ -10,8 +10,9 @@ pub unsafe fn init() {
     const MSR_STAR: u32 = 0xc000_0081;
     const MSR_LSTAR: u32 = 0xc000_0082;
     const MSR_FMASK: u32 = 0xc000_0084;
+    let enter = enter as *const ();
     unsafe {
-        arch::wrmsr(MSR_LSTAR, enter as usize as u64);
+        arch::wrmsr(MSR_LSTAR, enter.addr() as u64);
         arch::wrmsr(MSR_STAR, arch::star());
         arch::wrmsr(MSR_FMASK, arch::sfmask());
     }
@@ -146,7 +147,6 @@ unsafe extern "C" fn enter() -> ! {
 
 #[unsafe(naked)]
 pub unsafe extern "C" fn syscallret() {
-
     naked_asm!(
         r#"
         cli
